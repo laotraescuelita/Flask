@@ -1,0 +1,47 @@
+{%extends "base.html" %}
+{%block content%}
+
+	<div class="container p-5 my-5 bg-dark text-white" >	
+	  	<h2>Aquí escribiremos la lista de actividades.</h2>
+	</div>
+	<br>
+	<div class="container" >
+	<form action="/agregar" method="post">
+		<div class="row">
+			<div class="col-md-6">
+				<input name="titulo" type="text" class="form-control" placeholder="Escribe la actividad" aria-label="Recipient's username" aria-describedby="button-addon2">
+			</div>
+			<div class="col-md-2">
+				<button class="btn  btn-primary" type="submit" id="button-addon2">Agregar</button>
+			</div>
+		</div>			
+	</form>
+	</div>
+	
+	<br>
+	{%for actividad in lista %}
+	
+	<div class="container" >
+		<div class="row">
+			<div class="col-md-2">
+				<p>{{ actividad.id }}  -  {{actividad.titulo}}</p>
+			</div>
+			<div class="col-md-2">
+				{%if actividad.completado == False %}
+					<span>No esta completado</span>
+				{%else%}
+					<span>Esta completado</span>
+				{%endif%}
+			</div>
+			<div class="col-md-2">
+				<a href="/actualizar/{{ actividad.id }}">Actualizar</a>
+			</div>
+			<div class="col-md-2">
+				<a href="/borrar/{{ actividad.id }}">Borrar</a>
+			</div>
+		</div>
+	</div>
+	{%endfor%}
+
+
+{%endblock content%}
