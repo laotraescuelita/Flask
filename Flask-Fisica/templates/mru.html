@@ -1,0 +1,85 @@
+{% extends "base.html"%}
+{%block content %}
+     
+    <h3>Movimiento rectilieno uniforme</h3>
+    <p>
+    La primer ley de newton nos dice que un objeto permanecerá en reposo o en movimiento uniforme en linea recta, hasta que sea modificado por una fuerza externa.
+    Si presionas el boton derecho de tu "mouse" pondras en marcha el objeto y así permancera.
+    Tiene sentido que esto suceda porque estas enviando una señal electrica que funciona como la fuerza que hace mover este objeto.
+    Pero nosotros lo llamaremos velocidad para comenzar a trabjar con la mécanica de Sir Isaac Newton.
+    El canvas de este ejemplo trabaja de manera constante, la velocidad también es constante con esto definimos la formula de este primer ejemplo como x = x0 + vt.
+  </p>
+
+
+<script> 
+      
+    class MRU {
+      constructor(){
+        this.posicion = createVector(width/2, height/2)
+        this.velocidad = createVector()
+        this.velicidad_maxima = 2
+        
+      }
+    
+      aplicarFuerza(fuerza) {    
+        this.velocidad.add(fuerza);
+      }
+
+      mover( velocidad ) {          
+        this.velocidad.limit(this.velicidad_maxima)
+        this.posicion.add(this.velocidad)
+        //this.aceleracion.mult(0)
+      }
+    
+      mostrar(){
+        stroke(0);
+        strokeWeight(2)
+        fill(127)
+        ellipse(this.posicion.x, this.posicion.y, 48, 48)    
+      }
+    
+      
+      limitar() {
+    
+        if (this.posicion.x > width) {
+          this.posicion.x = 0;
+        }
+        else if (this.posicion.x < 0) {
+          this.posicion.x = width;
+        }
+    
+        if (this.posicion.y > height) {
+          this.posicion.y = 0;
+        }
+        else if (this.posicion.y < 0) {
+          this.posicion.y = height;
+        }
+      }
+    
+    }
+    
+    let objeto      
+    
+    function setup() {
+      createCanvas(1400, 300)
+      objeto = new MRU()
+    }
+    
+    function draw() {
+      background(51)
+      //Tomemos el valor del boton que se desliza       
+      if(mouseIsPressed){
+        let velocidad = createVector(0.5,0)
+        objeto.aplicarFuerza( velocidad )
+      }
+      
+      objeto.mover()
+      objeto.limitar()
+      objeto.mostrar()
+    
+    }
+    
+    </script>
+       
+
+{%endblock content%}

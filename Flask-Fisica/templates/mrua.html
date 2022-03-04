@@ -1,0 +1,82 @@
+{% extends "base.html"%}
+{%block content %}
+
+<h3>Movimiento rectilieno uniforme acelerado</h3>
+<p>
+  Por otro lado tenemos la aceleración que nos indica como cambia la velocidad con respecto del tiempo.
+  Para mirar como se acelera el objeto presiona el boton tantas veces como quieras.  
+  Aquí la formula que nos enseñaron en la escuela es v = v0+at.
+</P>
+<script> 
+
+class MRUA{
+  constructor() {
+    this.posicion = createVector(width/2, height/2)
+    this.velocidad = createVector()
+    this.aceleracion = createVector()
+    this.velicidad_maxima = 5
+  }
+
+  aplicarFuerza(fuerza) {    
+    this.aceleracion.add(fuerza);
+    }
+
+  mover( aceleracion ) {
+    this.velocidad.add(this.aceleracion)
+    //this.velocidad.limit(this.velicidad_maxima)
+    this.posicion.add(this.velocidad)
+    this.aceleracion.mult(0)
+  }
+
+  mostrar() {
+    stroke(0);
+    strokeWeight(2);
+    fill(127);
+    ellipse(this.posicion.x, this.posicion.y, 48, 48);
+  }
+
+limitar() {
+
+    if (this.posicion.x > width) {
+      this.posicion.x = 0;
+    }
+    else if (this.posicion.x < 0) {
+      this.posicion.x = width;
+    }
+
+    if (this.posicion.y > height) {
+      this.posicion.y = 0;
+    }
+    else if (this.posicion.y < 0) {
+      this.posicion.y = height;
+    }
+  }
+
+
+}
+
+let objeto
+
+function setup() {
+  createCanvas(1400, 300)  
+  objeto = new MRUA()
+}
+
+function draw() {
+  background(51)    
+
+   if (mouseIsPressed) {
+      let aceleracion = createVector(0.5, 0)
+      objeto.aplicarFuerza( aceleracion )
+   }
+
+    
+    objeto.mover()
+    objeto.limitar()
+    objeto.mostrar()
+
+}
+
+</script>
+
+{%endblock content%}
