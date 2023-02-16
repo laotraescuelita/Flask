@@ -1,0 +1,28 @@
+{% extends "machote.html" %}
+{% block contenido %}
+    <h1 class="mb-3">Notas escritas por {{ usuario.usuario }} ({{ notas.total }})</h1>
+    {% for nota in notas.items %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='fotos/' + nota.autor.imagen) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('notas_usuario', usuario=nota.autor.usuario) }}">{{ nota.autor.usuario }}</a>
+              <small class="text-muted">{{ nota.fecha.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('nota', nota_id=nota.id) }}">{{ nota.titulo }}</a></h2>
+            <p class="article-content">{{ nota.contenido }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    {% for numero_pagina in notas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if numero_pagina %}
+        {% if notas.page == numero_pagina %}
+          <a class="btn btn-info mb-4" href="{{ url_for('notas_usuario', usuario=usuario.usuario, page=numero_pagina) }}">{{ numero_pagina}}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('notas_usuario', usuario=usuario.usuario, page=numero_pagina) }}">{{ numero_pagina}}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock contenido %}

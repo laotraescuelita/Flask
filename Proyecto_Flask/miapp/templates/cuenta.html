@@ -1,0 +1,57 @@
+{% extends "machote.html" %}
+{% block contenido %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ imagen }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ current_user.usuario }}</h2>
+          <p class="text-secondary">{{ current_user.correo }}</p>
+        </div>
+      </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ forma.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Información de la cuenta</legend>
+                <div class="form-group">
+                    {{ forma.usuario.label(class="form-control-label") }}
+
+                    {% if forma.usuario.errors %}
+                        {{ forma.usuario(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.usuario.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.usuario(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ forma.correo.label(class="form-control-label") }}
+                    {% if forma.correo.errors %}
+                        {{ forma.correo(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.correo.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.correo(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ forma.foto.label() }}
+                    {{ forma.foto(class="form-control-file") }}
+                    {% if forma.foto.errors %}
+                        {% for error in forma.foto.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ forma.enviar(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock contenido %}
