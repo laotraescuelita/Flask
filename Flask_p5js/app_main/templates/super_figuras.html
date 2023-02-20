@@ -1,0 +1,96 @@
+{% extends "base.html"%}
+
+{%block contenido%}
+  <div class="container">
+    <h1>Super Formula en 2 dimensiones.</h1>
+      <p> Es una generalización de la super elipse.
+      <br>
+      La formúla f(phi) = (| cos( (m*phi / 4) / a )|^n2 +  | sin( (m*phi / 4) / b ) |^n3 ) ^-1/n1
+      <br>
+      Este ejemplo ascila de manera automatica, pero podemos modificar los valores.
+      </p>
+  </div>  
+{%endblock contenido%}
+
+{%block figuras %} 
+<script> 
+
+// Las variables toman sus valores del rango que se asigne a este objeto.
+var deslizador
+// Variables que se pueden modificar para obtener difernetes figuras.
+var n1 = 0.3
+var n2 = 0.3
+var n3 = 0.3
+var m = 5
+var a = 1
+var b = 1
+var osc = 0
+
+//FUNCIONES QUE SIEMPRE DEBE ESTAR EN P5JS PARA MOSTRAR Y ESTABLECER PARAMETROS.
+function setup() {
+  // El canvas es el espacio donde aparece la figura que dibujamos.
+  createCanvas(1400, 300)
+  // El objeto slider tiene un rangi (inicio, final, punto inicial, incrementos)
+  slider = createSlider(0, 10, 5, 1)
+}
+
+function draw() {
+  // Las figuras cambian de valores de forma automatica con este mapeo.
+  // Pero antes se utilizo un objeto slider para la misma función.
+  // Map(función a modificar, rango inicial, rango final, nuevo rango inicial, nuevo rango final
+  m = map(sin(osc), -1, 1, 0, 10) //slider.value()
+  osc += 0.02
+
+  // Color de fondo del canvas.
+  background(51)
+  // Esta función de p5js toma el (0,0) que siempre esta en la esquina superior izquierda. 
+  // Y lo coloca donde nosotros lo indiquemos, en este caso el centro es el centro del canvas.
+  translate(width / 2, height / 2)
+  // El grosor del borde de la figura.
+  stroke(255)
+  // La figura no tendra relleno.
+  noFill()
+
+  // Variables de la figura.
+  var radio = 100
+  var total = 200
+  var incremento = TWO_PI / total
+
+  // P5js tiene esta función para poder cerrar los border de las figurasy que no se vean punteadas.
+  beginShape()
+  //La figura tomara valores entre cero y 2PI.
+  for (var angulo = 0; angulo < TWO_PI; angulo += incremento) {
+    var r = supershape(angulo)
+    var x = radio * r * cos(angulo)
+    var y = radio * r * sin(angulo)
+    // Dibuja los puntos de la figura.
+    vertex(x, y)
+  }
+  // Se necesita cerrar la figura con el parametro CLOSE por inxactitud en los pixeles.
+  endShape(CLOSE)
+}
+
+// FUNCIONES QUE NOSOTROS CREAMOS.
+function supershape(theta) {
+  var parte1 = (1 / a) * cos((theta * m) / 4)
+  parte1 = abs(parte1)
+  parte1 = pow(parte1, n2)
+
+  var parte2 = (1 / b) * sin((theta * m) / 4)
+  parte2 = abs(parte2)
+  parte2 = pow(parte2, n3)
+
+  var parte3 = pow(parte1 + parte2, 1 / n1)
+
+  if (parte3 === 0) {
+    return 0
+  }
+
+  return 1 / parte3
+}
+
+</script>
+{%endblock figuras%}
+
+
+

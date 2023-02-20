@@ -1,0 +1,144 @@
+{% extends "base.html"%}
+
+{%block contenido%}
+  <div class="container">
+    <h1>Julia Set Fractal</h1>
+      <p> 
+      La formúla f(z) = z^2 + c nos ayuda a construir el fractal conocido como Julia.
+      <br>
+      Al ser fractales creados en el plano de números complejos. Modificamos sus valores tanot reales
+      <br>
+      como imaginarios para poder obtener diferentes figuras.
+      <br>
+      La figura de este ejemplo es unicamente una de varios resultdos posibles.
+      </p>
+  </div>  
+{%endblock contenido%}
+
+{%block figuras %} 
+<script> 
+// Variable global para modificar el angulo que nos permitira dar
+// la imporesion de que la figura respira.
+let angulo = 0
+// Máximo numero de iteraciones para casa punto en el plano de numeros conplejos.
+const max_iteraciones = 100
+
+// Colores que se usuran para cada posible iterecaion. 
+const colores_Rojo = []
+const colores_Verde = []
+const colores_azul = []
+
+
+// FUNCIONES SETUP Y DRAW, siempre deben estar en el algoritmo para iniciar variables
+// y mostrar los resultados.
+
+function setup() {
+  // Funcion de p5js para dar grosor a los pixeles.
+  pixelDensity(1)
+  // Tamaño del espacio donde se dibujara la figura.
+  createCanvas(1200, 400)
+  // Función de p5js para colorear los pixeles.
+  colorMode(HSB, 1)
+
+  // Crear los colores para cada posible iteración. 
+  // Recorrer los vectores para llenarlos de colores.
+  for (let n = 0; n < max_iteraciones; n++) {    
+    // El número que resulta de esta operación sera el color.
+    let hu = sqrt(n / max_iteraciones)
+    // El color RGB, cambiara conforme cambie la variable hu.
+    let col = color(hu, 255, 150)
+    // Se rellenan los vectores para cada color.
+    colores_Rojo[n] = red(col)
+    colores_Verde[n] = green(col)
+    colores_azul[n] = blue(col)
+  }
+}
+
+// Mostrar los resultados.
+function draw() {
+  // Aqui las variables reciben los valores de las coordenas donde este el mouse.
+  // let ca = map(mouseX, 0, width, -1, 1); //-0.70176;
+  // let cb = map(mouseY, 0, height, -1, 1); //-0.3842;
+
+  // Aqui las variables reciben los valores de las funciones seno y coseno y la variable angulo.
+  let ca = cos(angulo * 3.213) //sin(angle);
+  let cb = sin(angulo)
+   // La variable angulo se actualiza en cada iteración.
+  angulo += 0.02
+
+  // EL fondo es blanco.
+  background(255)
+
+  // Establecer un rango de valores para el plano de números complejos.
+  // Un rango diferente permitira acercar o alejar el fractal.
+  // Comienza con el ancho, pero intenra con valores mas altos o mas bajos.
+  //let w = abs(sin(angulo)) * 5;
+  let w = 5
+  let h = (w * height) / width
+
+  // Comienza con la mitad del ancho y el alto.
+  let xmin = -w / 2
+  let ymin = -h / 2
+
+  // Asegurarnos de que podremos escribir en el vector de los pixeles. 
+  // Solamente es necesario hacer esto una vez, ya que no hay otros dibujos. 
+  loadPixels()
+
+  // x va de xmin a xmax. 
+  let xmax = xmin + w
+  // y va de ymin a ymax.
+  let ymax = ymin + h
+
+  // Calculo el monto que incrementa x,y para cada pixel. 
+  let dx = (xmax - xmin) / width
+  let dy = (ymax - ymin) / height
+
+  // Comienza  y.
+  let y = ymin
+  for (let j = 0; j < height; j++) {
+    // Comienza y.
+    let x = xmin
+    for (let i = 0; i < width; i++) {
+      // Ahora probamos mientras interactua z =z^2 + cm hast que va a infinito.
+      let a = x
+      let b = y
+      let n = 0
+      while (n < max_iteraciones) {
+        let aa = a * a
+        let bb = b * b
+        // Infinito en el ejemplo es 16.        
+        if (aa + bb > 4.0) {
+          break; // Bail
+        }
+        let twoab = 2.0 * a * b
+        a = aa - bb + ca
+        b = twoab + cb
+        n++
+      }
+
+      // Se colorea cada pixel con base en el tiempo que toma ir al infinito. 
+      // Si nunca se llega ahi, se selecciona el negro. 
+      let pix = (i + j * width) * 4
+      if (n == max_iteraciones) {
+        pixels[pix + 0] = 0
+        pixels[pix + 1] = 0
+        pixels[pix + 2] = 0
+      } else {
+        // De otra manera utilizamos los colores que se estabelcerion en el setup.
+        pixels[pix + 0] = colores_Rojo[n]
+        pixels[pix + 1] = colores_Verde[n]
+        pixels[pix + 2] = colores_azul[n]
+      }
+      x += dx
+    }
+    y += dy
+  }
+  updatePixels()
+  console.log(frameRate())
+}
+
+
+</script>
+{%endblock figuras%}
+
+

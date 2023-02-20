@@ -1,0 +1,75 @@
+{% extends "base.html"%}
+
+{%block contenido%}
+  <div class="container">
+    <h1>Super Elipse</h1>
+      <p> La formúla |x/a|^n + |x/b|^n = 1 es la base de esta figura.
+      <br>
+        El primer deslizador nos ayuda con los incrementos de la figura. 
+        <br>
+        El segundo nos ayuda con el tamaño de la figura.
+      </p>
+  </div>  
+{%endblock contenido%}
+
+{%block figuras %} 
+<script> 
+
+// Funcio que trabaja dentro de la formula de la super elipse. 
+function sgn(val){
+  if(val > 0){
+    return 1
+  }else if (val < 0 ){
+    return -1 
+  }else{
+    return 0 
+  }
+}
+
+// variables globales para funcionar en las funciones setup y show.
+//Funciones que siempre deben de ir en p5js para mostrar los graficos.
+// Esta funcion crea los objetos que se mostraran en el canvas.
+function setup(){
+  createCanvas(1400,300)
+  incremento = createSlider(0,10,5,0.01) //minimo, maximo,inicio, incrementos.
+  eje_a = createSlider(0,200,100,0.01)
+  
+}
+
+// Esta función es un loop que muestra por frame los objetos.
+function draw(){
+  background(51)
+  //Esta función parte de un nuevo centro en el canvas de acuerdo al ancho y largo del mismo.
+  translate(width/2, height/2)
+  //radio de la elipse
+  //var r = 100
+  // variables para crear una superelipse.
+  var a = eje_a.value()
+  var b = 100
+  var n = incremento.value()
+  //El grueso del contorno de la figura.
+  stroke(255)
+  //Como stroke rellena la figura. Utilizamos no fill para mirar unicamente el contorn.
+  noFill()
+  //Este metodo de p5js ayuda a conectar los puntos y cerrar la imagen.
+  beginShape()
+  //matriz que dibujara cada punto de la elipse con coordenas polares.
+  for(var angle=0; angle<TWO_PI; angle+=0.01){
+    // Variables para crear una elipse "normal".
+    //var x = r * cos(a)
+    //var y = r * sin(a)
+    // Variables para crear una super elipse
+    var na = 2/n
+    var x = pow(abs(cos(angle)),na ) * a * sgn(cos(angle))
+    var y = pow(abs(sin(angle)),na ) * a * sgn(sin(angle))
+    vertex(x,y)
+  }
+  // hay que cerrar el metodo begiShape y dentro pasamos el parametro CLOSE para
+  //no dejar espacios en el contorno.
+  endShape(CLOSE)
+}
+
+</script>
+{%endblock figuras%}
+
+
