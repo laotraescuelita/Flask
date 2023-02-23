@@ -1,0 +1,40 @@
+{% extends "machote.html" %}
+{% block contenido %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ forma.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ leyenda }}</legend>
+            <div class="form-group">
+                {{ forma.titulo.label(class="form-control-label") }}
+                {% if forma.titulo.errors %}
+                    {{ forma.titulo(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.titulo.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.titulo(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ forma.contenido.label(class="form-control-label") }}
+                {% if forma.contenido.errors %}
+                    {{ forma.contenido(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.contenido.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.contenido(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ forma.enviar(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock contenido %}

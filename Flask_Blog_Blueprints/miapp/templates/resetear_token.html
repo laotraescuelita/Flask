@@ -1,0 +1,40 @@
+{% extends "machote.html" %}
+{% block contenido %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ forma.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Resetear Contraseña</legend>
+                <div class="form-group">
+                    {{ forma.contraseña.label(class="form-control-label") }}
+                    {% if forma.contraseña.errors %}
+                        {{ forma.contraseña(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.contraseña.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.contraseña(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ forma.confirmar_contraseña.label(class="form-control-label") }}
+                    {% if forma.confirmar_contraseña.errors %}
+                        {{ forma.confirmar_contraseña(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.confirmar_contraseña.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.confirmar_contraseña(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ forma.enviar(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock contenido %}

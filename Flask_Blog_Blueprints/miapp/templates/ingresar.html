@@ -1,0 +1,52 @@
+{% extends "machote.html" %}
+{% block contenido %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ forma.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Ingresar</legend>
+                <div class="form-group">
+                    {{ forma.correo.label(class="form-control-label") }}
+                    {% if forma.correo.errors %}
+                        {{ forma.correo(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.correo.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.correo(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ forma.contraseña.label(class="form-control-label") }}
+                    {% if forma.contraseña.errors %}
+                        {{ forma.contraseña(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.contraseña.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.contraseña(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ forma.recordarme(class="form-check-input") }}
+                    {{ forma.recordarme.label(class="form-check-label") }}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ forma.enviar(class="btn btn-outline-info") }}
+            </div>
+            <small class="text-muted ml-2">
+                <a href="{{url_for('usuarios.resetear_solicitud')}}">Olvidaste la contraseña?</a>
+            </small>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Necesitas una cuenta? <a class="ml-2" href="{{ url_for('usuarios.registrarse') }}">Registrarse</a>
+        </small>
+    </div>
+{% endblock contenido %}

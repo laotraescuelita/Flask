@@ -1,0 +1,72 @@
+{%extends "machote.html"%}
+{%block contenido%}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ forma.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Unete hoy</legend>
+            <div class="form-group">
+                {{ forma.usuario.label(class="form-control-label") }}
+
+                {% if forma.usuario.errors %}
+                    {{ forma.usuario(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.usuario.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.usuario(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ forma.correo.label(class="form-control-label") }}
+                {% if forma.correo.errors %}
+                    {{ forma.correo(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.correo.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.correo(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ forma.contraseña.label(class="form-control-label") }}
+                {% if forma.contraseña.errors %}
+                    {{ forma.contraseña(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.contraseña.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.contraseña(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ forma.confirmar_contraseña.label(class="form-control-label") }}
+                {% if forma.confirmar_contraseña.errors %}
+                    {{ forma.confirmar_contraseña(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">                        
+                        {% for error in forma.confirmar_contraseña.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ forma.confirmar_contraseña(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ forma.enviar(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+<div class="border-top pt-3">
+    <small class="text-muted">
+        Ya tienes una cuenta? <a class="ml-2" href="{{ url_for('usuarios.ingresar') }}">Ingresa</a>
+    </small>
+</div>
+{%endblock contenido%}
